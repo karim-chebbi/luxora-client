@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getCarById } from '../JS/Actions/CarActions'
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import Spinner from '../components/Spinner';
@@ -93,7 +93,7 @@ const CarDetails = () => {
             </dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <ul
-                role="list"
+                
                 className="divide-y divide-gray-100 rounded-md border border-gray-200"
               >
                 <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
@@ -110,12 +110,12 @@ const CarDetails = () => {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
+                    <Link
+                      to="/"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Download
-                    </a>
+                    </Link>
                   </div>
                 </li>
                 <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
@@ -132,12 +132,12 @@ const CarDetails = () => {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
+                    <Link
+                      to="/"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Download
-                    </a>
+                    </Link>
                   </div>
                 </li>
               </ul>

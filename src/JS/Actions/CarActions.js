@@ -41,7 +41,7 @@ export const addCar = ({newCar, navigate}) => async (dispatch) => {
   try {
     const result = await axios.post("/api/cars/addCar", newCar);
     dispatch({ type: ADD_CAR_SUCCESS, payload: result.data });
-    navigate('/contact')
+    navigate('/shop')
   } catch (error) {
     dispatch({ type: ADD_CAR_FAIL, payload: error });
   }
