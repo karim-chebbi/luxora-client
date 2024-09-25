@@ -1,5 +1,20 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../JS/Actions/AuthActions";
 
 export default function Login() {
+    const [user, setUser] = useState();
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    };
+
+    const handleLogin = () => {
+      dispatch(login({user, navigate}));
+    };
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -15,7 +30,13 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="/" method="POST" className="space-y-6">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+            className="space-y-6"
+          >
             <div>
               <label
                 htmlFor="email"
@@ -25,6 +46,7 @@ export default function Login() {
               </label>
               <div className="mt-2">
                 <input
+                  onChange={(e) => handleChange(e)}
                   id="email"
                   name="email"
                   type="email"
@@ -54,6 +76,7 @@ export default function Login() {
               </div>
               <div className="mt-2">
                 <input
+                  onChange={(e) => handleChange(e)}
                   id="password"
                   name="password"
                   type="password"

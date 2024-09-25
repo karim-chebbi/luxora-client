@@ -4,12 +4,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { editCar, getCarById } from "../JS/Actions/CarActions";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 const EditCar = () => {
     const {id} = useParams()
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const car = useSelector((state) => state.CarReducer.car);
   const [newCar, setNewCar] = useState(car);
@@ -23,7 +22,7 @@ const EditCar = () => {
     setNewCar({ ...newCar, [e.target.name]: e.target.value });
   };
   const handleEdit = () => {
-    dispatch(editCar({ id, newCar, navigate }));
+    dispatch(editCar({ id, newCar }));
     setOpen(false);
   };
   return (

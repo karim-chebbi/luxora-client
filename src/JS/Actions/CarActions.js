@@ -42,18 +42,19 @@ export const addCar = ({newCar, navigate}) => async (dispatch) => {
     const result = await axios.post("/api/cars/addCar", newCar);
     dispatch({ type: ADD_CAR_SUCCESS, payload: result.data });
     navigate('/shop')
+    dispatch(getCars());
   } catch (error) {
     dispatch({ type: ADD_CAR_FAIL, payload: error });
   }
 };
 
 // edit car action
-export const editCar = ({id, newCar, navigate}) => async (dispatch) => {
+export const editCar = ({id, newCar}) => async (dispatch) => {
   dispatch({ type: EDIT_CAR_LOAD });
   try {
     const result = await axios.put(`/api/cars/editCar/${id}`, newCar);
     dispatch({ type: EDIT_CAR_SUCCESS, payload: result.data });
-    navigate('/shop')
+    dispatch(getCarById(id));
   } catch (error) {
     dispatch({ type: EDIT_CAR_FAIL, payload: error });
   }
