@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, REGISTER_USER_FAIL, REGISTER_USER_LOAD, REGISTER_USER_SUCCESS } from "../ActionTypes/AuthActionTypes"
+import { CURRENT_USER, LOGIN_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, LOGOUT_USER, REGISTER_USER_FAIL, REGISTER_USER_LOAD, REGISTER_USER_SUCCESS } from "../ActionTypes/AuthActionTypes"
 
 
 // Register
@@ -27,3 +27,24 @@ try {
     dispatch({type: LOGIN_USER_FAIL, payload: error})
 }
 }
+
+// logout 
+export const logout = () => async (dispatch) => {
+    dispatch({type: LOGOUT_USER})
+}
+
+// current
+export const current = () => async (dispatch) => {
+  dispatch({ type: LOGIN_USER_LOAD });
+  try {
+        const config = {
+          headers: { Authorization: localStorage.getItem("token") },
+        };
+        console.log(config)
+    let result = await axios.get("/api/auth/current", config);
+    dispatch({ type: CURRENT_USER, payload: result.data });
+  } catch (error) {
+    console.log(error)
+    dispatch({ type: LOGIN_USER_FAIL, payload: error.response.data.errors });
+  }
+};

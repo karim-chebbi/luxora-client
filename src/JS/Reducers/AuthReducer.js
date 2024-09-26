@@ -1,4 +1,4 @@
-const { REGISTER_USER_LOAD, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL } = require("../ActionTypes/AuthActionTypes");
+const { REGISTER_USER_LOAD, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGOUT_USER, CURRENT_USER } = require("../ActionTypes/AuthActionTypes");
 
 
 const initialState = {
@@ -31,6 +31,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
       return { ...state, loadUser: true };
 
     case LOGIN_USER_SUCCESS:
+      localStorage.setItem("token", payload.token);
       return {
         ...state,
         user: payload.foundUser,
@@ -40,8 +41,16 @@ const AuthReducer = (state = initialState, { type, payload }) => {
       };
 
     case LOGIN_USER_FAIL:
-      return { ...state, load: false, errors: payload.error, success: null };
+      return { ...state, loadUser: false, errors: payload.error, success: null };
 
+
+    case LOGOUT_USER:
+      localStorage.removeItem("token");
+      return {...state, user: null, isAuth: false}
+
+      case CURRENT_USER:
+        return { ...state, user: payload, loadUser: false, isAuth: true };
+      
     default:
       return state;
   }

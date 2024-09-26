@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Dialog, DialogPanel } from "@headlessui/react";
+import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from 'react-router-dom';
+import { logout } from '../JS/Actions/AuthActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -9,8 +11,22 @@ const navigation = [
   { name: "Contact", href: "/contact" },
   { name: "Shop", href: "/shop" },
 ];
+
+const userNavigation = [
+  { name: "Your Profile", href: "/profile" },
+  { name: "Settings", href: "/profile" },
+  { name: "Sign out", href: "/"},
+];
+
+
 const NavBar = () => {
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+      const dispatch = useDispatch()
+
+      const user = useSelector((state)=> state.AuthReducer.user)
+
+      const isAuth = useSelector((state)=> state.AuthReducer.isAuth)
 
   return (
     <div>
@@ -51,12 +67,63 @@ const NavBar = () => {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              to="/login"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            {/* Profile menu */}
+
+            <span>
+              Welcome{" "}
+              <Link to="/profile" style={{ textDecoration: "underline" }}>
+                {user && user.name}
+              </Link>
+            </span>
+            <Menu as="div" className="relative ml-3">
+              <div>
+                <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  <img
+                    alt=""
+                    src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=360"
+                    className="h-8 w-8 rounded-full"
+                  />
+                </MenuButton>
+              </div>
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              >
+                {userNavigation.map((item) => (
+                  <MenuItem key={item.name}>
+                    <Link
+                      to={item.href}
+                      onClick={
+                        item.name === "Sign out"
+                          ? () => dispatch(logout())
+                          : null
+                      }
+                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                    >
+                      {item.name}
+                    </Link>
+                  </MenuItem>
+                ))}
+              </MenuItems>
+            </Menu>
+
+            {isAuth ? (
+              <Link
+                onClick={() => dispatch(logout())}
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
+            )}
           </div>
         </nav>
         <Dialog
@@ -99,10 +166,22 @@ const NavBar = () => {
                 </div>
                 <div className="py-6">
                   <Link
+                    to="/profile"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Profile
+                  </Link>
+                  <Link
                     to="/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Log in
+                  </Link>
+                  <Link
+                    onClick={() => dispatch(logout())}
+                    className="text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Logout
                   </Link>
                 </div>
               </div>
