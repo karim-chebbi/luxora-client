@@ -11,6 +11,8 @@ export default function CarList() {
     const cars = useSelector((state) => state.CarReducer.cars);
     const load = useSelector((state) => state.CarReducer.load);
 
+    const isAuth = useSelector((state)=> state.AuthReducer.isAuth)
+
     useEffect(() => {
       dispatch(getCars())
     }, [dispatch])
@@ -32,7 +34,7 @@ export default function CarList() {
           {cars.map((product) => (
             <Link
               key={product.id}
-              to={`/carDetails/${product._id}`}
+              to={ isAuth ? `/carDetails/${product._id}` : "/login"}
               className="group"
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">

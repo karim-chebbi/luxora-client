@@ -14,6 +14,9 @@ import CarDetails from './pages/CarDetails';
 import Profile from './pages/Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { current } from './JS/Actions/AuthActions';
+import ErrorNotification from './components/ErrorNotification';
+import SuccessNotification from './components/SuccessNotification';
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
 
@@ -23,9 +26,9 @@ const App = () => {
 
   const user = useSelector((state)=> state.AuthReducer.user)
 
-  console.log(isAuth)
+  const authErrors = useSelector((state)=> state.AuthReducer.errors)
 
-  console.log(user)
+  const authSuccess = useSelector((state)=> state.AuthReducer.success)
 
   useEffect(() => {
           if (localStorage.getItem("token")) {
@@ -35,6 +38,9 @@ const App = () => {
   
   return (
     <div>
+      {authErrors && authErrors.map((el) => <ErrorNotification error={el} />)}
+      {authSuccess &&
+        authSuccess.map((el) => <SuccessNotification success={el} />)}
       <NavBar />
       <Banner />
       <Routes>
@@ -44,14 +50,17 @@ const App = () => {
 
         <Route path="/shop" element={<Shop />} />
         {isAuth ? (
-          <Route path="/profile" element={<Profile />} />
+          <>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/carDetails/:id" element={<CarDetails />} />
+          </>
         ) : (
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </>
         )}
-        <Route path="/carDetails/:id" element={<CarDetails />} />
+
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>

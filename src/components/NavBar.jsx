@@ -68,47 +68,50 @@ const NavBar = () => {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {/* Profile menu */}
+            {isAuth && (
+              <>
+                <span>
+                  <span className="text-lg font-thin mx-2">Hello,</span>
+                  <Link to="/profile" className="text-xl font-semibold">
+                    {user && user.name}
+                  </Link>
+                </span>
 
-            <span>
-              Welcome{" "}
-              <Link to="/profile" style={{ textDecoration: "underline" }}>
-                {user && user.name}
-              </Link>
-            </span>
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=360"
-                    className="h-8 w-8 rounded-full"
-                  />
-                </MenuButton>
-              </div>
-              <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-              >
-                {userNavigation.map((item) => (
-                  <MenuItem key={item.name}>
-                    <Link
-                      to={item.href}
-                      onClick={
-                        item.name === "Sign out"
-                          ? () => dispatch(logout())
-                          : null
-                      }
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                    >
-                      {item.name}
-                    </Link>
-                  </MenuItem>
-                ))}
-              </MenuItems>
-            </Menu>
-
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        alt=""
+                        src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=360"
+                        className="h-8 w-8 rounded-full"
+                      />
+                    </MenuButton>
+                  </div>
+                  <MenuItems
+                    transition
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  >
+                    {userNavigation.map((item) => (
+                      <MenuItem key={item.name}>
+                        <Link
+                          to={item.href}
+                          onClick={
+                            item.name === "Sign out"
+                              ? () => dispatch(logout())
+                              : null
+                          }
+                          className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                        >
+                          {item.name}
+                        </Link>
+                      </MenuItem>
+                    ))}
+                  </MenuItems>
+                </Menu>
+              </>
+            )}
             {isAuth ? (
               <Link
                 onClick={() => dispatch(logout())}

@@ -6,6 +6,9 @@ import { PaperClipIcon } from "@heroicons/react/20/solid";
 import Spinner from '../components/Spinner';
 import DeleteCar from '../components/DeleteCar';
 import EditCar from '../components/EditCar';
+import { Button, Tooltip } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
+
 
 const CarDetails = () => {
     const navigate = useNavigate()
@@ -19,20 +22,22 @@ const CarDetails = () => {
     }, [dispatch, id]);
     
   return (
-    <div className='md:px-16'>
-        {
-            load && <div className='h-screen flex justify-center items-center'>
-                <Spinner />
-            </div> 
-        }
-        <div className='flex justify-center flex-col items-center'>
-            <img src={car.image} alt="car" className='w-2/5 rounded-lg' />
-            <div className='flex justify-center gap-4 mt-2'>
-                <button onClick={()=> navigate(-1)}>Back</button>
-                <EditCar />
-                <DeleteCar id={id} brand={car.brand} />
-            </div>
+    <div className="md:px-16">
+      {load && (
+        <div className="h-screen flex justify-center items-center">
+          <Spinner />
         </div>
+      )}
+      <div className="flex justify-center flex-col items-center">
+        <img src={car.image} alt="car" className="w-2/5 rounded-lg" />
+        <div className="flex justify-center items-center gap-4 mt-2">
+          <Tooltip title="Back to list">
+            <Button onClick={()=> navigate(-1)} shape="circle" icon={<LeftOutlined  />} />
+          </Tooltip>
+          <EditCar />
+          <DeleteCar id={id} brand={car.brand} />
+        </div>
+      </div>
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           Car Information
@@ -92,10 +97,7 @@ const CarDetails = () => {
               Attachments
             </dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <ul
-                
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
+              <ul className="divide-y divide-gray-100 rounded-md border border-gray-200">
                 <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <div className="flex w-0 flex-1 items-center">
                     <PaperClipIcon

@@ -9,6 +9,8 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from 'react-redux';
 import { deleteCarById } from '../JS/Actions/CarActions';
 import { useNavigate } from 'react-router-dom';
+import {DeleteOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 
 const DeleteCar = ({id, brand}) => {
     const [open, setOpen] = useState(false);
@@ -21,7 +23,15 @@ const DeleteCar = ({id, brand}) => {
     }
   return (
     <div>
-      <button onClick={() => setOpen(true)}>Delete</button>
+      <Tooltip title="Back to list">
+        <Button
+          onClick={() => setOpen(true)}
+          shape="circle"
+          icon={<DeleteOutlined />}
+          danger
+          ghost
+        />
+      </Tooltip>
       <Dialog open={open} onClose={setOpen} className="relative z-10">
         <DialogBackdrop
           transition

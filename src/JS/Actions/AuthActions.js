@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CURRENT_USER, LOGIN_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, LOGOUT_USER, REGISTER_USER_FAIL, REGISTER_USER_LOAD, REGISTER_USER_SUCCESS } from "../ActionTypes/AuthActionTypes"
+import { CLEAR_ERRORS_AUTH, CLEAR_SUCCESS_AUTH, CURRENT_USER, LOGIN_USER_FAIL, LOGIN_USER_LOAD, LOGIN_USER_SUCCESS, LOGOUT_USER, REGISTER_USER_FAIL, REGISTER_USER_LOAD, REGISTER_USER_SUCCESS } from "../ActionTypes/AuthActionTypes"
 
 
 // Register
@@ -24,7 +24,7 @@ try {
     dispatch({type: LOGIN_USER_SUCCESS, payload: result.data})   
     navigate('/')   
 } catch (error) {
-    dispatch({type: LOGIN_USER_FAIL, payload: error})
+    dispatch({type: LOGIN_USER_FAIL, payload: error.response.data.errors})
 }
 }
 
@@ -48,3 +48,16 @@ export const current = () => async (dispatch) => {
     dispatch({ type: LOGIN_USER_FAIL, payload: error.response.data.errors });
   }
 };
+
+
+export const clearErrorsAuth = () => {
+    return {
+        type: CLEAR_ERRORS_AUTH
+    }
+}
+
+export const clearSuccessAuth = () => {
+    return {
+        type: CLEAR_SUCCESS_AUTH
+    }
+}
